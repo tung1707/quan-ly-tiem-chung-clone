@@ -17,14 +17,14 @@ class KehoachtiemSeeder extends Seeder
         $data=[
             [
                 'Ngay_Tiem' =>'2021-10-19',
-                'gio_Tiem' =>'07:00:00',
+                'gio_Tiem' =>'00:00:00',
                 'iddonvitiem' =>1,
                 'idnguoidan' =>1,
                 'iddktiem'=>1
             ],
             [
                 'Ngay_Tiem' =>'2021-10-19',
-                'gio_Tiem' =>'07:20:00',
+                'gio_Tiem' =>'00:00:00',
                 'iddonvitiem' =>1,
                 'idnguoidan' =>2,
 
@@ -32,7 +32,7 @@ class KehoachtiemSeeder extends Seeder
             ],
             [
                 'Ngay_Tiem' =>'2021-10-19',
-                'gio_Tiem' =>'07:40:00',
+                'gio_Tiem' =>'00:00:00',
                 'iddonvitiem' =>1,
                 'idnguoidan' =>3,
                 'iddktiem'=>3

@@ -40,124 +40,88 @@ class kehoachtiem extends Model
             ->where(['kehoachtiem.idnguoidan' => $id])->get();
         return $kehoachtiem;
     }
+
+
     public function InsertKehoachtiem()
     {
-        $dktiem =  DB::table('dktiem')->distinct()->select('ngay_Tiem')->get();
-        //Get khác loại
-        // echo count($dktiem);
-        // for ($i = 0; $)
-        for ($i = 0; $i <count($dktiem); $i++) {
 
-            $x = $dktiem[$i]->ngay_Tiem;
+        $Ngay_Tiem = DB::table('kehoachtiem')->where('gio_Tiem', "00:00:00")->distinct()->select('Ngay_Tiem')->get();
+        $count = count($Ngay_Tiem);
+        
 
-            $a1 = Str::limit($x, 7, '');
-            $a2 = Str::limit($x, 5, '');
-            $a3 = Str::after($x, $a1, '');
-            $a4 = Str::limit($x, 8, '');
-            $year = Str::limit($x, 4, '');
-            $month = Str::between($x, $a2, $a3);
-            $day = Str::after($x, $a4, '');
-            //Xử lý lấy ngày tháng năm
+        if ($count > 0) {
+            for ($a = 0; $a < $count; $a++) {
+                $GetDay = $Ngay_Tiem[$a]->Ngay_Tiem;
+                $a1 = Str::limit($GetDay, 7, '');
+                $a2 = Str::limit($GetDay, 5, '');
+                $a3 = Str::after($GetDay, $a1, '');
+                $a4 = Str::limit($GetDay, 8, '');
+                $year = Str::limit($GetDay, 4, '');
+                $month = Str::between($GetDay, $a2, $a3);
+                $day = Str::after($GetDay, $a4, '');
+                $tz = 'Asia/Ho_Chi_Minh';
+                $date = $year . "-" . $month . "-" . $day;
 
-            // $year = Str::of($x)->limit(7+strlen($x)+3,'');
-            // echo $year;
-            // echo $month;
-            // echo $day;
-            $date=$year.'-'.$month.'-'.$day;
-
-            // echo $date,"\n";
-            $year = $year;
-            $month = $month;
-            $day = $day;
-
-            $tz = 'Asia/Ho_Chi_Minh';
-            // $count = DB::table('dktiem')->count();
-            $aa = 0;
-            $xx = 0;
-
-                $ngay_Tiem = DB::table('dktiem')->where('ngay_Tiem', $x)->count();
-                $count = DB::table('dktiem')->count();
-                if($xx<=$ngay_Tiem){
-                    for ($i = 7; $i <= 24; $i++) {
+                if ($date == $GetDay) {
+                    //Đếm ngày
+                    // $GetNgay_Tiem = DB::table('dktiem')->where('Ngay_Tiem',$GetDay)->count();
+                    //Đếm giờ
+                    $GetHours = DB::table('kehoachtiem')->where('gio_Tiem', "00:00:00")->where('Ngay_Tiem', $GetDay)->count();
+                    $counts = 0;
+                    $add = 0;
+                    for ($i = 7; $i < 24; $i++) {
                         for ($j = 0; $j < 60; $j += 20) {
-                            // if ($i < 18) {
                             if ($i == 12) {
                                 continue;
                             }
-                            $xx++;
-                            if ($xx <= $ngay_Tiem) {
-                                if($date==$x){
-                                    if ($i < 18) {
-                                        $hour = $i;
-                                        $minute = 0 + $j;
-                                        if ($i < 18) {
-    
-                                            if ($aa > 0) {
-                                                echo Carbon::create($year, $month, $day + $aa, $hour, $minute, 00, $tz), "\n";
-    
-                                            } else {
-    
-                                                echo Carbon::create($year, $month, $day, $hour, $minute, 00, $tz), "\n";
-                                            }
+                            $counts++;
+                            if ($counts <= $GetHours) {
+
+                                if ($i < 18) {
+                                    if ($i < 10) {
+                                        if ($j < 10) {
+                                            $time = "0" . $i . ":" . "0" . $j . ":" . "00";
+                                        } else {
+                                            $time = "0" . $i . ":" . $j . ":" . "00";
                                         }
                                     } else {
-                                        $aa++;
-                                        $hour = $i = 7;
-                                        $minute = 0 + $j;
-                                        echo Carbon::create($year, $month, $day + $aa, $hour, $minute, 00, $tz), "\n";
+                                        if ($j < 10) {
+                                            $time = $i . ":" . "0" . $j . ":" . "00";
+                                        } else {
+                                            $time = $i . ":" . $j . ":" . "00";
+                                        }
+                                    }
+
+                                   
+                                    if ($add > 0) {
+                                        echo Carbon::create($year, $month, $day + $add, $i, $j, $tz), "\n";
+                                        $data=[
+                                            'gio_Tiem'=>$i.':'.$j,
+                                        ];
+                                        DB::table('kehoachtiem')->where('gio_Tiem','00:00:00')->update($data);
+                                    } else {
+                                        echo Carbon::create($year, $month, $day, $i, $j, $tz), "\n";
+                                        $data=[
+                                            'gio_Tiem'=>$i.':'.$j,
+                                        ];
+                                        DB::table('kehoachtiem')->where('gio_Tiem','00:00:00')->update($data);
+
                                     }
                                 }
-                              
+                                else {
+                                    $add++;
+                                    $i = 7;
+                                    echo Carbon::create($year, $month, $day + $add, $i, $j, $tz), "\n";
+                                }
                             }
                         }
                     }
                 }
 
-
-            else{
-                return ;
+                // echo $year." ".$month." ".$day,"\n";
             }
-        }
-
-    }
-
-    public function scheduled($year, $month, $day)
-    {
-        $year = $year;
-        $month = $month;
-        $day = $day;
-        $tz = 'Asia/Ho_Chi_Minh';
-        $count = DB::table('dktiem')->count();
-        $aa = 0;
-        $xx = 0;
-        for ($i = 7; $i <= 24; $i++) {
-            for ($j = 0; $j < 60; $j += 20) {
-                // if ($i < 18) {
-                if ($i == 12) {
-                    continue;
-                }
-                $xx++;
-                if ($xx <= $count) {
-                    if ($i < 18) {
-                        $hour = $i;
-                        $minute = 0 + $j;
-                        if ($i < 18) {
-
-                            if ($aa > 0) {
-                                echo Carbon::create($year, $month, $day + $aa, $hour, $minute, 00, $tz);
-                            } else {
-
-                                echo Carbon::create($year, $month, $day, $hour, $minute, 00, $tz);
-                            }
-                        }
-                    } else {
-                        $aa++;
-                        $hour = $i = 7;
-                        $minute = 0 + $j;
-                        echo Carbon::create($year, $month, $day + $aa, $hour, $minute, 00, $tz);
-                    }
-                }
-            }
+        } else {
+            return false;
         }
     }
 }

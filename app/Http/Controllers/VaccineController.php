@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\VaccineResource;
+use App\Http\Resources\IndexResource;
 use App\Models\vaccine;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class VaccineController extends Controller
     public function index()
     {
         $all=$this->vaccine->SelectVaccineAll();
-        return VaccineResource::collection($all);
+        return IndexResource::collection($all);
     }
 
     /**
@@ -50,7 +50,7 @@ class VaccineController extends Controller
         $insert=$this->vaccine-> 
         InsertVaccine($name_vaccine,$country,$company,$object,$somui,$distance);
         if($insert->save()){
-            return new VaccineResource($insert);
+            return new IndexResource($insert);
         }
     }
 
@@ -63,7 +63,7 @@ class VaccineController extends Controller
     public function show($id)
     {
         $get=$this->vaccine->SelectVaccine($id);
-        return new VaccineResource($get);
+        return new IndexResource($get);
     }
 
     /**
@@ -94,7 +94,7 @@ class VaccineController extends Controller
         $update->somui=$request->somui;
         $update->distance=$request->distance;
         if($update->save()){
-            return new vaccineResource($update);
+            return new IndexResource($update);
         }
     }
 
@@ -109,7 +109,7 @@ class VaccineController extends Controller
         $destroy=$this->vaccine->DestroyVaccine($id);
         if($destroy->delete()){
            
-            return new vaccineResource($destroy);
+            return new IndexResource($destroy);
         }
     }
 }

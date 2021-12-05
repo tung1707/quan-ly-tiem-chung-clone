@@ -17,7 +17,9 @@ class vaccineDV extends Model
         'idvaccine',
         'soluong',
         'iddonvitiem',
+        'Ngay_Nhan',
     ];
+    
     public function SelectVaccineDVAll(){
         $kehoachtiemAll = DB::table('vaccine_donvitiemchung')
         ->join('donvitiemchung', 'donvitiemchung.iddonvitiem', '=', 'vaccine_donvitiemchung.iddonvitiem')
@@ -32,13 +34,21 @@ class vaccineDV extends Model
         ->where(['idvaccine_donvitiemchung'=>$id])->get();
     return $kehoachtiemAll;
     }
-    public function InsertVaccineDV($idvaccine,$soluong,$iddonvitiem){
+
+    
+    public function InsertVaccineDV($idvaccine,$soluong,$iddonvitiem,$Ngay_Nhan){
         $data=[
             'idvaccine'=>$idvaccine,
             'soluong'=>$soluong,
             'iddonvitiem'=>$iddonvitiem,
-            
+            'Ngay_Nhan'=>$Ngay_Nhan,
         ];
-        return vaccine::create($data);
+        return vaccineDV::create($data);
+    }
+    public function UpdateVaccineDV($id){
+        return vaccineDV::where(['idvaccine_donvitiemchung' => $id])->find($id);
+    }
+    public function DestroyvaccineDV($id){
+        return vaccineDV::find($id);
     }
 }

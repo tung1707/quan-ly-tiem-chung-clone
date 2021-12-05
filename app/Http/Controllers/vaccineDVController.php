@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class vaccineDVController extends Controller
 {
-    protected $vaccineDV;
+    protected $vaccinedv;
     public function __construct(){
-        $this->vaccineDV=new vaccineDV();
+        $this->vaccinedv = new vaccineDV();
     }
     /**
      * Display a listing of the resource.
@@ -19,18 +19,8 @@ class vaccineDVController extends Controller
      */
     public function index()
     {
-        $all=$this->vaccineDV->SelectVaccineDVAll();
+        $all=$this->vaccinedv->SelectVaccineDVAll();
         return new VaccindeDVResource($all);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -41,14 +31,18 @@ class vaccineDVController extends Controller
      */
     public function store(Request $request)
     {
-        $idvaccine=$this->vaccineDV->idvaccine=$request->idvaccine;
-        $soluong=$this->vaccineDV->soluong=$request->soluong;
-        $iddonvitiem=$this->vaccineDV->iddonvitiem=$request->iddonvitiem;
-        $insert=$this->vaccineDV-> 
-        InsertVaccineDV($idvaccine,$soluong,$iddonvitiem);
+        $data=[
+            $this->vaccinedv->idvaccine=$request->idvaccine,
+            $this->vaccinedv->soluong=$request->soluong,
+            $this->vaccinedv->iddonvitiem=$request->iddonvitiem,
+            $this->vaccinedv->Ngay_Nhan=$request->Ngay_Nhan,
+        ];
+      
+        $insert=$this->vaccinedv->InsertVaccineDV($data[0],$data[1],$data[2],$data[3]);
         if($insert->save()){
             return new VaccindeDVResource($insert);
         }
+
     }
 
     /**
@@ -59,19 +53,8 @@ class vaccineDVController extends Controller
      */
     public function show($id)
     {
-        $all=$this->vaccineDV->SelectVaccineDV($id);
+        $all=$this->vaccinedv->SelectVaccineDV($id);
         return new VaccindeDVResource($all);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -83,7 +66,14 @@ class vaccineDVController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update=$this->vaccinedv->UpdateVaccineDV($id);
+        $update->idvaccine=$request->idvaccine;
+        $update->soluong=$request->soluong;
+        $update->iddonvitiem=$request->iddonvitiem;
+        $update->Ngay_Nhan=$request->Ngay_Nhan;
+        if($update->save()){
+            return new VaccindeDVResource($update);
+        }
     }
 
     /**
@@ -94,6 +84,10 @@ class vaccineDVController extends Controller
      */
     public function destroy($id)
     {
-        //
+   
+        $destroy=$this->vaccinedv->DestroyvaccineDV($id);
+        if($destroy->delete()){
+            return new VaccindeDVResource($destroy);
+        }
     }
 }

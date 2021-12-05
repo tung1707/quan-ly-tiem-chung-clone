@@ -28,7 +28,7 @@ class CreateNguoidanTable extends Migration
             $table->integer('id_users')->unsigned();
             $table->foreign('id_users')->references('id_users')->on('users')
             ->onDelete('cascade');
-             $table->timestamps();
+            $table->timestamps();
              
         });
     }

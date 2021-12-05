@@ -39,12 +39,15 @@ class donvitiemchung extends Model
     }
     public function InsertDVtiemchung($tendonvi,$city,$district,$wards,$address,$id_users){
         $data=[
-            'tendonvi'=>$tendonvi,
-            'city'=>$city,
-            'district'=>$district,
-            'wards'=>$wards,
-            'address'=>$address,
-            'id_users'=>$id_users
+            
+
+                'tendonvi'=>$tendonvi,
+                'city'=>$city,
+                'district'=>$district,
+                'wards'=>$wards,
+                'address'=>$address,
+                'id_users'=>$id_users,
+            
            
         ];
         return donvitiemchung::create($data);

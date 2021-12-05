@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\DVTiemChungResource;
+use App\Http\Resources\IndexResource;
 use App\Models\donvitiemchung;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class donvitiemchungController extends Controller
     public function index()
     {
         $all=$this->DVtiemChung->SelectDVTiemAll();
-        return new DVTiemChungResource($all);
+        return new IndexResource($all);
     }
 
     /**
@@ -53,7 +53,7 @@ class donvitiemchungController extends Controller
         $insert=$this->DVtiemChung-> 
         InsertDVtiemchung($tendonvi,$city,$district,$wards,$address,$id_users);
         if($insert->save()){
-            return new DVTiemChungResource($insert);
+            return new IndexResource($insert);
         }
     }
 
@@ -66,7 +66,7 @@ class donvitiemchungController extends Controller
     public function show($id)
     {
         $get = $this->DVtiemChung->SelectDVTiem($id);
-        return new DVTiemChungResource($get);
+        return new IndexResource($get);
     }
 
     /**
@@ -96,7 +96,7 @@ class donvitiemchungController extends Controller
         $update->wards=$request->wards;
         $update->address=$request->address;
         if($update->save()){
-            return new DVTiemChungResource($update);
+            return new IndexResource($update);
         }
     }
 
@@ -112,7 +112,7 @@ class donvitiemchungController extends Controller
         $destroy=$this->DVtiemChung->Destroydvtc($id);
         if($destroy->delete() &&  $user->delete()){
            
-            return new DVTiemChungResource($destroy);
+            return new IndexResource($destroy);
         }
     }
 }

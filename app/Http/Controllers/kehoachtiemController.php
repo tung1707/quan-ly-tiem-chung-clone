@@ -90,7 +90,7 @@ class kehoachtiemController extends Controller
         //
     }
     public function XX(){
-        return  ($this->KehoachTiem->InsertKehoachtiem());
+        return new KeHoachTiemResource ($this->KehoachTiem->InsertKehoachtiem());
 
     }
 }

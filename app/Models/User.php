@@ -72,25 +72,23 @@ class User extends Authenticatable implements JWTSubject
     }
     public function SelectUser($id)
     {
-        $check=$user=User::where('id_users',$id)->get();
-       if($check[0]->role=='donvitiemchung'){
-           $donvitiemchung=DB::table('users')
-           ->join('donvitiemchung','donvitiemchung.id_users','=','users.id_users')
-           ->where(['users.id_users'=>$id])->get();
-           return $donvitiemchung;
-     
-       }else{
-        $nguoidan=DB::table('users')
-        ->join('nguoidan','nguoidan.id_users','=','users.id_users')
-        ->where(['users.id_users'=>$id])->get();
-        return $nguoidan;
+        $check = User::where('id_users', $id)->get();
 
-       }
+        if ($check[0]->role == 'donvitiemchung') {
+            $donvitiemchung = DB::table('users')
+                ->join('donvitiemchung', 'donvitiemchung.id_users', '=', 'users.id_users')
+                ->where(['users.id_users' => $id])->get();
+            return $donvitiemchung;
+        } else {
+            $nguoidan = DB::table('users')
+                ->join('nguoidan', 'nguoidan.id_users', '=', 'users.id_users')
+                ->where(['users.id_users' => $id])->get();
+            return $nguoidan;
+        }
+       
     }
-    public function DestroyUsers($id){
+    public function DestroyUsers($id)
+    {
         return User::find($id);
-    }
-    public function countUsersdvtc(){
-        
     }
 }

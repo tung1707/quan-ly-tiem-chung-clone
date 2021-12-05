@@ -76,7 +76,7 @@ class AuthController extends Controller
     {
         $validator = Validator()->make($request->all(), [
             'old_password' => 'required|string|min:6',
-            'new_password' => 'required|string|confirmed|min:6',
+            'new_password' => 'required|string|min:6',
         ]);
 
         $userId=auth()->user()->id;

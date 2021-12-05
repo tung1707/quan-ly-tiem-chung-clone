@@ -21,7 +21,8 @@ class CreateVaccineDonvitiemchungTable extends Migration
             $table->integer('soluong')->unsigned();
             $table->integer('iddonvitiem')->unsigned();
             $table->foreign('iddonvitiem')->references('iddonvitiem')->on('donvitiemchung')
-            ->onDelete('cascade');;
+            ->onDelete('cascade');
+            // $table->date('Ngay_Nhan');
             $table->timestamps();
 
         });

@@ -17,7 +17,7 @@ class CreateKehoachtiemTable extends Migration
              //Co so y te
              $table->increments('idkehoachtiem');
              $table->date('Ngay_Tiem');
-             $table->time('gio_Tiem');
+             $table->time('gio_Tiem')->default("00:00:00");
              $table->integer('iddonvitiem')->unsigned();
              $table->foreign('iddonvitiem')->references('iddonvitiem')->on('donvitiemchung')
              ->onDelete('cascade');

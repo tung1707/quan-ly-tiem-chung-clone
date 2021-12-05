@@ -11,7 +11,7 @@
 
     <form action="{{ route('import.dvtiemchung') }}" method="post" enctype="multipart/form-data">
         @csrf
-        <input type="file" name="filedvTiemChung">
+        <input type="file" name="filedvTiemChung">                                                                
         <input type="submit" value="update" name="submit">
     </form>
 </body>
